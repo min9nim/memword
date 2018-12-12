@@ -14,6 +14,8 @@ const dbcon = process.env.NODE_ENV === 'production'
     require("../../dbConfig").memword
     ;
 
+console.log("@@ " + dbcon);
+
 mongoose.connect(dbcon, { useCreateIndex: true, useNewUrlParser: true });
 
 
