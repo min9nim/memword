@@ -14,7 +14,7 @@ const dbcon = process.env.NODE_ENV === 'production'
     require("../../dbConfig").memword
     ;
 
-console.log("@@ " + dbcon);
+console.log("@@ 디비접속 문자열 : " + dbcon);
 
 try{
     mongoose.connect(dbcon, { useCreateIndex: true, useNewUrlParser: true });
