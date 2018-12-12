@@ -7,6 +7,8 @@ const fs_writeFile = util.promisify(fs.writeFile)
 
 const projectId = 'word-trans';
 
+console.log("## 새로운 변경사항");
+
 if (process.env.NODE_ENV === 'production') {
     console.log("운영: 동적으로 memword-trans.json 파일 생성");
     R.pipe(
