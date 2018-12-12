@@ -56,11 +56,11 @@ class Index extends React.Component {
     }
 
 
-    static getInitialProps({ req, asPath }) {
-        return fetch(app.BACKEND + "/api/list", {
+    static async getInitialProps({ req, asPath }) {
+        let res = await fetch(app.BACKEND + "/api/list", {
             method: "GET"
         })
-        .then(res => res.json())
+        return await res.json();
     }
 
 
