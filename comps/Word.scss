@@ -1,0 +1,13 @@
+
+
+.word {
+    display: flex;
+    .value {
+        flex: 1;
+        line-height: 10px;
+    }
+    .remove {
+        cursor: pointer;
+
+    }
+}

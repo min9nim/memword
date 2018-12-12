@@ -1,0 +1,6 @@
+#.next
+node_modules
+.next
+.vscode
+word-trans.json
+dbConfig.js

@@ -1,0 +1,93 @@
+/**
+* 칼라테마
+https://coolors.co/25283d-8f3985-98dfea-07beb8-efd9ce
+*/
+
+$color1: #25283d;
+$color2: #8f3985;
+$color3: #98dfea;
+$color4: #07beb8;
+$color5: #efd9ce;
+$font-size: 16px;
+$font-family: '굴림';
+
+.index {
+    font-family: $font-family;
+    font-size: $font-size;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+    .upper {
+        background-color: #343a40;
+        height: 80px;
+        padding: 20px 100px;
+        .logo {
+            //color: $color5;
+            display: inline-block;
+            font-size: 30px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            cursor: pointer;
+        }
+    }
+    .lower {
+        color: $color1;
+        padding: 20px 100px;
+        .title {
+            margin-bottom: 5px;
+        }
+        .word {
+            display: flex;
+            align-items: center;
+            textarea {
+                width: 100%; //max-width: 1000px;
+                height: 31px;
+                color: #555;
+                overflow: initial;
+                overflow-y: auto;
+                font-family: "\AD74\B9BC";
+                font-size: 25px;
+                line-height: initial;
+                margin: initial;
+                padding: 5px;
+                font-family: $font-family;
+            }
+            button {
+                margin-left: 10px;
+                height: 30px;
+                width: 42px;
+                background: none;
+                background-color: #eee;
+                cursor: pointer;
+                border: initial;
+                font-size: small;
+                padding: 1px 7px 2px;
+                font-family: $font-family;
+            }
+        }
+        .title2 {
+            margin-top: 20px;
+        }
+        .result {
+            margin-top: 20px;
+        }
+        .history {
+            ul {
+                list-style: none;
+                padding-inline-start: 20px;
+                li {
+                    margin: 10px 0px;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    .index .upper {
+        padding: 20px 20px;
+    }
+    .index .lower {
+        padding: 20px 20px;
+    }
+}
