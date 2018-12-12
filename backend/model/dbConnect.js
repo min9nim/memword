@@ -16,7 +16,12 @@ const dbcon = process.env.NODE_ENV === 'production'
 
 console.log("@@ " + dbcon);
 
-mongoose.connect(dbcon, { useCreateIndex: true, useNewUrlParser: true });
+try{
+    mongoose.connect(dbcon, { useCreateIndex: true, useNewUrlParser: true });
+}catch(e){
+    console.log("DB 접속 오류")
+    console.log(e);
+}
 
 
 module.exports = mongoose;
