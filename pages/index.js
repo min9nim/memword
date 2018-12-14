@@ -79,9 +79,9 @@ class Index extends React.Component {
     }
 
     logoClick(){
-        location.href = "/"
+        //location.href = "/"
         //app.router.push("/");
-        //this.setState({word: "", result: ""})
+        this.setState({word: "", result: ""})
     }
 
 
