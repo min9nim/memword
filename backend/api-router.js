@@ -6,23 +6,32 @@ const translate = require("./com/translate")
 const Word = require('./model/word');
 
 const { sendErr } = require("./com/com")
+const request = require('request');
 
 const apiRouter = express.Router();
 module.exports = apiRouter;
 
 
-apiRouter.get("/list", async function(req, res){
-    try{
+// 이미지 프록시
+apiRouter.get("/proxy", async (req, res) => {
+    request.get(req.query.url).pipe(res);
+})
+
+// 내가 찾은 단어 목록
+apiRouter.get("/list", async function (req, res) {
+    try {
         let list = await Word.find(null, { __v: 0, _id: 0 }, { sort: { updatedAt: -1 } });
-        console.log("@@ list  = " + list);
-    
-        res.set('Content-Type', 'application/json').send({list})
-    }catch(e){
+        //console.log("@@ list  = " + list);
+
+        res.set('Content-Type', 'application/json').send({ list })
+    } catch (e) {
         sendErr(res)(e)
     }
 
 })
 
+
+// 단어검색
 apiRouter.get("/word/:word", function (req, res) {
     let url = `https://endic.naver.com/search.nhn?sLn=kr&isOnlyViewEE=N&query=${req.params.word}`
     webscrap(url).then(result => {
@@ -30,12 +39,15 @@ apiRouter.get("/word/:word", function (req, res) {
     });
 })
 
+
+// 문장검색
 apiRouter.get("/words/:words", function (req, res) {
     translate(req.params.words).then(result => {
         res.send(result);
     })
 })
 
+// 찾았던 단어 등록
 apiRouter.post("/save", async function (req, res) {
 
     let word = await Word.findOne({ word: req.body.word.trim() });
@@ -79,14 +91,14 @@ apiRouter.delete("/delete/:id", async function (req, res) {
             status: 'Success',
             message: `word(${output.id}) is removed`,
             output
-        })        
-        
+        })
+
     } else {
         res.set('Content-Type', 'application/json').send({
             status: 'Fail',
             message: `${req.params.id} is not found`,
             output
-        })          
+        })
 
     }
 

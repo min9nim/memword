@@ -437,9 +437,14 @@ $m._findIndex = $m._curryr(function (list, fn) {
     }
 });
 
+$m._trace = label => value => {
+    console.log(`${label}: ${value}`);
+    return value;
+};
+
 
 $m.removeTag = function (html) {
-    if(!html) return "";
+    if (!html) return "";
     return html.replace(/(<([^>]+)>)/gi, "");
 }
 
@@ -456,7 +461,7 @@ $m.isMobileChrome = function () {
 
 
 $m.highlight = function (txt, word) {
-    if(!txt) return "";
+    if (!txt) return "";
 
     if (word) {
         var reg = new RegExp("(" + word + ")", "gi");
@@ -469,12 +474,12 @@ $m.highlight = function (txt, word) {
 
 $m.removeAnimation = (dom, delay) => {
     return new Promise(function (resolve) {
-      dom.style.transition = `transform ${delay}s ease-in-out`;
-      dom.style.transform = "scaleY(0)";
-      setTimeout(resolve, delay * 1000);
+        dom.style.transition = `transform ${delay}s ease-in-out`;
+        dom.style.transform = "scaleY(0)";
+        setTimeout(resolve, delay * 1000);
     })
-  }
-  
+}
+
 $m.cancelRemoveAnimation = (dom, delay) => {
     return new Promise(function (resolve) {
         dom.style.transition = `transform ${delay}s ease-in-out`;
@@ -495,7 +500,7 @@ $m.nl2br = (str) => {
  * htmlspecialchars, htmlspecialchars_decode 소스출처: https://stackoverflow.com/questions/5499078/fastest-method-to-escape-html-tags-as-html-entities
  */
 function htmlspecialchars(str) {
-    if(!str) return "";
+    if (!str) return "";
 
     var map = {
         "&": "&amp;",
@@ -504,12 +509,12 @@ function htmlspecialchars(str) {
         "\"": "&quot;",
         "'": "&#39;" // ' -> &apos; for XML only
     };
-    return str.replace(/[&<>"']/g, function(m) { return map[m]; });
+    return str.replace(/[&<>"']/g, function (m) { return map[m]; });
 }
 
 function htmlspecialchars_decode(str) {
-    if(!str) return "";
-    
+    if (!str) return "";
+
     var map = {
         "&amp;": "&",
         "&lt;": "<",
@@ -517,7 +522,7 @@ function htmlspecialchars_decode(str) {
         "&quot;": "\"",
         "&#39;": "'"
     };
-    return str.replace(/(&amp;|&lt;|&gt;|&quot;|&#39;)/g, function(m) { return map[m]; });
+    return str.replace(/(&amp;|&lt;|&gt;|&quot;|&#39;)/g, function (m) { return map[m]; });
 }
 
 $m.htmlspecialchars = htmlspecialchars;

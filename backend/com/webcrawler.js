@@ -35,6 +35,7 @@ const webscrap = (url) => queue(url).then(({ err, res, $ }) => {
         let result = $("#content > .word_num").html()
             .replace(/a href="\//g, `a target="_blank" href="https://endic.naver.com/`)
             .replace(/a href="search\.nhn/g, `a target="_blank" href="https://endic.naver.com/search.nhn`)
+            .replace(/<img src="(https:\/\/.+\.pstatic\.net)/g, `<img src="/api/proxy?url=$1`)
             
         return css + result;
     }
