@@ -14,7 +14,7 @@ module.exports = apiRouter;
 apiRouter.get("/list", async function(req, res){
     try{
         let list = await Word.find(null, { __v: 0, _id: 0 }, { sort: { updatedAt: -1 } });
-        console.log("@@ list  = " + list);
+        //console.log("@@ list  = " + list);
     
         res.set('Content-Type', 'application/json').send({list})
     }catch(e){

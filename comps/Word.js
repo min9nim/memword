@@ -1,11 +1,8 @@
 import $m from "../com/util";
 import { deleteWord } from "../src/restful";
-
+import { equals, complement } from "ramda"
 import "./Word.scss";
 import app from "../src/app";
-
-
-
 
 const remove = async (word, dom) => {
     if (!confirm("삭제합니다")) {
@@ -27,11 +24,11 @@ const remove = async (word, dom) => {
 
 
 
-function mouseenter(dom){
+function mouseenter(dom) {
     dom.style.color = "red";
 }
 
-function mouseleave(dom){
+function mouseleave(dom) {
     dom.style.color = "";
 }
 
@@ -41,17 +38,28 @@ class Word extends React.Component {
         super(props);
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return complement(equals)(this.props.word, nextProps.word)
+    }
+
+    wordClick(){
+        app.view.Index.setState({word: this.props.word.word}, () => {
+            app.view.Index.search();
+        })
+    }
+
 
     render() {
+        console.log("Word 렌더링")
         const { word } = this.props;
         return (
             <li ref={el => { this.dom = el }} >
                 <div className="word">
-                    <div className="value">
+                    <div className="value" onClick={this.wordClick.bind(this)} onMouseLeave={e => {e.target.style.color=""}} onMouseEnter={e => {e.target.style.color="green"}}>
                         {word.word} <sup>{word.hit}</sup>
                     </div>
 
-                    <div className="remove" onClick={() => remove(word, this.dom)} onMouseLeave={() => mouseleave(this.dom)}  onMouseEnter={() => mouseenter(this.dom)}>
+                    <div className="remove" onClick={() => remove(word, this.dom)} onMouseLeave={() => mouseleave(this.dom)} onMouseEnter={() => mouseenter(this.dom)}>
                         <i className="icon-trash-empty" />
                     </div>
 

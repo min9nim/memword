@@ -4,10 +4,11 @@
     display: flex;
     .value {
         flex: 1;
-        line-height: 10px;
+        line-height: 20px;
+        cursor: pointer;
     }
     .remove {
+        margin-left: 10px;
         cursor: pointer;
-
     }
 }

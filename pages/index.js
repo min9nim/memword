@@ -70,40 +70,45 @@ class Index extends React.Component {
 
 
     render() {
+        console.log("Index 렌더링")
         return (
             <div className="index">
                 <div className="upper">
-                    <div className="logo" onClick={this.logoClick.bind(this)}>memword</div>
-                    <div className="slogan">한번 몰랐던 영단어 두번 모르지 말자!</div>
+                    <div className="wrapper">
+                        <div className="logo" onClick={this.logoClick.bind(this)}>memword</div>
+                        <div className="slogan">한번 몰랐던 영단어 두번 모르지 말자!</div>
+                    </div>
                 </div>
                 <div className="lower">
-                    <div className="title">
-                        단어 및 문장을 검색해 보세요
-                </div>
-                    <div className="word">
-                        <textarea value={this.state.word} ref={ele => { this.input = ele }} onChange={this.handleChange.bind(this)}></textarea>
-                        <button onClick={this.search.bind(this)}>검색</button>
+                    <div className="wrapper">
+                        <div className="title">
+                            단어 및 문장을 검색해 보세요
+                        </div>
+                        <div className="word">
+                            <textarea value={this.state.word} ref={ele => { this.input = ele }} onChange={this.handleChange.bind(this)}></textarea>
+                            <button onClick={this.search.bind(this)}>검색</button>
+                        </div>
+                        {
+                            this.state.result
+                                ?
+                                <React.Fragment>
+                                    <div className="title2">검색 결과</div>
+                                    <div className="result" dangerouslySetInnerHTML={{ __html: this.state.result }}>
+                                    </div>
+                                </React.Fragment>
+                                :
+                                <React.Fragment>
+                                    <div className="title2">내가 찾아본 단어</div>
+                                    <div className="history">
+                                        <ul>
+                                            {
+                                                this.state.list.map(o => <Word key={o.id} word={o} />)
+                                            }
+                                        </ul>
+                                    </div>
+                                </React.Fragment>
+                        }
                     </div>
-                    {
-                        this.state.result
-                            ?
-                            <React.Fragment>
-                                <div className="title2">검색 결과</div>
-                                <div className="result" dangerouslySetInnerHTML={{ __html: this.state.result }}>
-                                </div>
-                            </React.Fragment>
-                            :
-                            <React.Fragment>
-                                <div className="title2">내가 찾아본 단어</div>
-                                <div className="history">
-                                    <ul>
-                                        {
-                                            this.state.list.map(o => <Word key={o.id} word={o} />)
-                                        }
-                                    </ul>
-                                </div>
-                            </React.Fragment>
-                    }
                 </div>
             </div>
         )
