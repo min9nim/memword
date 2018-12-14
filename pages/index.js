@@ -1,6 +1,9 @@
 import { reqWord, reqWords, saveWord } from "../src/restful";
 import app from "../src/app";
+import $m from "../com/util";
 import { withRouter } from 'next/router'
+const R = require("ramda");
+global.R = R;
 
 import fetch from 'isomorphic-unfetch';
 import Word from "../comps/Word";
@@ -37,22 +40,48 @@ class Index extends React.Component {
             //alert("단어나 문장을 입력하세요");
             return;
         }
-        let result;
-        if (this.state.word.trim().split(" ").length > 1) {
-            result = await reqWords(this.state.word);
-        } else {
-            result = await reqWord(this.state.word);
-        }
-        this.setState({ result });
+
+
+
+
+        // if (this.state.word.trim().split(" ").length > 1) {
+        //     result = await reqWords(this.state.word);
+        // } else {
+        //     result = await reqWord(this.state.word);
+        // }
+
+        const getResult = R.ifElse(
+            R.pipe(
+                R.trim,
+                R.split(" "),
+                R.length,
+                R.gt(R.__, 1)
+            ),
+            reqWords,
+            reqWord
+        )
+
+        // $m._pipe(
+        //     getResult,
+        //     $m._trace("after getReuslt"),
+        //     (res) => {debugger; return res;},
+        //     R.prop("then")(result => {
+        //         this.setState({ result });
+        //     })
+
+        // )(this.state.word)
+
+        getResult(this.state.word).then(result => {
+            this.setState({ result });
+        })
 
         saveWord(this.state.word);
-
     }
 
     logoClick(){
-        // location.href = "/"
+        location.href = "/"
         //app.router.push("/");
-        this.setState({word: "", result: ""})
+        //this.setState({word: "", result: ""})
     }
 
 
