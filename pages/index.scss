@@ -1,13 +1,7 @@
-/**
-* 칼라테마
-https://coolors.co/25283d-8f3985-98dfea-07beb8-efd9ce
-*/
 
-$color1: #25283d;
-$color2: #8f3985;
-$color3: #98dfea;
-$color4: #07beb8;
-$color5: #efd9ce;
+
+@import "../src/com/com.scss";
+
 $font-size: 16px;
 $font-family: '굴림';
 
@@ -20,7 +14,7 @@ $font-family: '굴림';
     .upper {
         background-color: #343a40;
         height: 80px;
-        padding: 20px 100px;
+        padding: 5px 100px 20px 100px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -29,6 +23,7 @@ $font-family: '굴림';
             max-width: 800px;
             .logo {
                 //color: $color5;
+                font-family: "logofont";
                 display: inline-block;
                 font-size: 30px;
                 font-weight: bold;
@@ -99,11 +94,21 @@ $font-family: '굴림';
     }
 }
 
-@media only screen and (max-width: 600px) {
-    .index .upper {
-        padding: 20px 20px;
-    }
-    .index .lower {
-        padding: 20px 20px;
+@include mobile() {
+    .index{
+        .upper {
+            padding: 0px 20px 10px 20px;
+            .wrapper {
+                .logo {
+                    font-size: 25px;
+                }
+                .slogan {
+                    font-size: 14px;
+                }
+            }
+        }
+        .lower {
+            padding: 20px 20px;
+        }
     }
 }
