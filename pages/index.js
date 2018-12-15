@@ -1,15 +1,10 @@
 import { reqWord, reqWords, saveWord, wordList } from "../src/restful";
 import app from "../src/app";
-import $m from "../com/util";
+// import $m from "../com/util";
 import { withRouter } from 'next/router'
+import { observable, reaction, decorate } from "mobx";
 const R = require("ramda");
-global.R = R;
-
-import fetch from 'isomorphic-unfetch';
 import Word from "../comps/Word";
-
-
-
 import "./index.scss"
 
 class Index extends React.Component {
@@ -23,17 +18,25 @@ class Index extends React.Component {
             list: this.props.list
         }
 
+        // 변이를 추적할 상태 지정
+        decorate(this, {state: observable});  // or this.state = observable(this.state);
+        
+        // 변화에 따른 효과를 정의
+        reaction(() => this.state.word, this.resizeInput);
+
         app.view.Index = this;
         app.router = this.props.router;
     }
 
     handleChange(e) {
-        this.setState({ word: e.target.value }, this.resizeInput)
+        this.setState({ word: e.target.value })
     }
 
 
     resizeInput = () => {
+        console.log("resizeInput 호출")
         let ta = this.input;
+        ta.style.height = "";
 
         if (ta.scrollHeight > ta.offsetHeight) {
             ta.style.height = ta.scrollHeight + "px"
@@ -87,8 +90,6 @@ class Index extends React.Component {
     }
 
     logoClick() {
-        //location.href = "/"
-
         this.setState({ word: "", result: "" }, () => {
             app.router.push("/");
         })
@@ -113,7 +114,7 @@ class Index extends React.Component {
     }
 
     initWord = () => {
-        this.setState({ word: "", result: "" }, this.resizeInput)
+        this.setState({ word: "", result: "" })
     }
 
 
