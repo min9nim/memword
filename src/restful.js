@@ -1,3 +1,11 @@
+import fetch from 'isomorphic-unfetch';
+
+export async function wordList(){
+    let res = await fetch(app.BACKEND + "/api/list", {
+        method: "GET"
+    })
+    return res.json();
+}
 
 export async function reqWord(word) {
     let res = await fetch("/api/word/" + word, {

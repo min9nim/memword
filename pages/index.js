@@ -1,4 +1,4 @@
-import { reqWord, reqWords, saveWord } from "../src/restful";
+import { reqWord, reqWords, saveWord, wordList } from "../src/restful";
 import app from "../src/app";
 import $m from "../com/util";
 import { withRouter } from 'next/router'
@@ -14,7 +14,9 @@ import "./index.scss"
 
 class Index extends React.Component {
     constructor(props) {
+        console.log("Index 생성자 호출")
         super(props);
+        
         this.state = {
             word: "",
             result: "",
@@ -40,8 +42,6 @@ class Index extends React.Component {
             //alert("단어나 문장을 입력하세요");
             return;
         }
-
-
 
 
         // if (this.state.word.trim().split(" ").length > 1) {
@@ -80,16 +80,23 @@ class Index extends React.Component {
 
     logoClick(){
         //location.href = "/"
-        //app.router.push("/");
-        this.setState({word: "", result: ""})
+        
+        this.setState({word: "", result: ""}, () => {
+            app.router.push("/");
+        })
     }
 
 
     static async getInitialProps({ req, asPath }) {
-        let res = await fetch(app.BACKEND + "/api/list", {
-            method: "GET"
-        })
-        return await res.json();
+        console.log("Index의 getInitialProps 호출")
+        let {list} = await wordList();
+        if(req){
+            // 서버에서
+        }else{
+            // 클라이언트에서
+            app.view.Index.state.list = list;
+        }
+        return {list}
     }
 
 
