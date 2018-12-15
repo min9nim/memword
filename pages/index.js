@@ -1,36 +1,49 @@
-import { reqWord, reqWords, saveWord } from "../src/restful";
+import { reqWord, reqWords, saveWord, wordList } from "../src/restful";
 import app from "../src/app";
-import $m from "../com/util";
+// import $m from "../com/util";
 import { withRouter } from 'next/router'
+import { observable, reaction, decorate } from "mobx";
 const R = require("ramda");
-global.R = R;
-
-import fetch from 'isomorphic-unfetch';
 import Word from "../comps/Word";
-
-
-
 import "./index.scss"
 
 class Index extends React.Component {
     constructor(props) {
+        console.log("Index 생성자 호출")
         super(props);
+
         this.state = {
             word: "",
             result: "",
             list: this.props.list
         }
+
+        // 변이를 추적할 상태 지정
+        decorate(this, {state: observable});  // or this.state = observable(this.state);
         
+        // 변화에 따른 효과를 정의
+        reaction(() => this.state.word, this.resizeInput);
+
         app.view.Index = this;
         app.router = this.props.router;
     }
 
     handleChange(e) {
         this.setState({ word: e.target.value })
-        let ta = e.target;
+    }
+
+
+    resizeInput = () => {
+        console.log("resizeInput 호출")
+        let ta = this.input;
+        ta.style.height = "";
 
         if (ta.scrollHeight > ta.offsetHeight) {
             ta.style.height = ta.scrollHeight + "px"
+        }
+
+        if (this.state.word === "") {
+            ta.style.height = "";
         }
     }
 
@@ -40,8 +53,6 @@ class Index extends React.Component {
             //alert("단어나 문장을 입력하세요");
             return;
         }
-
-
 
 
         // if (this.state.word.trim().split(" ").length > 1) {
@@ -78,23 +89,32 @@ class Index extends React.Component {
         saveWord(this.state.word);
     }
 
-    logoClick(){
-        location.href = "/"
-        //app.router.push("/");
-        //this.setState({word: "", result: ""})
+    logoClick() {
+        this.setState({ word: "", result: "" }, () => {
+            app.router.push("/");
+        })
     }
 
 
     static async getInitialProps({ req, asPath }) {
-        let res = await fetch(app.BACKEND + "/api/list", {
-            method: "GET"
-        })
-        return await res.json();
+        console.log("Index의 getInitialProps 호출")
+        let { list } = await wordList();
+        if (req) {
+            // 서버에서
+        } else {
+            // 클라이언트에서
+            app.view.Index.state.list = list;
+        }
+        return { list }
     }
 
 
     componentDidMount() {
         this.input.focus();
+    }
+
+    initWord = () => {
+        this.setState({ word: "", result: "" })
     }
 
 
@@ -115,6 +135,9 @@ class Index extends React.Component {
                         </div>
                         <div className="word">
                             <textarea value={this.state.word} ref={ele => { this.input = ele }} onChange={this.handleChange.bind(this)}></textarea>
+                            {this.state.word &&
+                                <div className="icon-cancel delete" onClick={this.initWord} />
+                            }
                             <button onClick={this.search.bind(this)}>검색</button>
                         </div>
                         {

@@ -1,0 +1,25 @@
+$mobile-width: 600px;
+$mobile-width2: 1000px;
+
+/**
+* 칼라테마
+https://coolors.co/25283d-8f3985-98dfea-07beb8-efd9ce
+*/
+$color1: #25283d;
+$color2: #8f3985;
+$color3: #98dfea;
+$color4: #07beb8;
+$color5: #efd9ce;
+
+@mixin mobile() {
+    @media only screen and (max-width: $mobile-width) {
+        @content;
+    }
+}
+@mixin mobile2() {
+    @media only screen and (max-width: $mobile-width2) {
+        @content;
+    }
+}
+
+
