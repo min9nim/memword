@@ -1,4 +1,5 @@
 $mobile-width: 600px;
+$mobile-width2: 1000px;
 
 /**
 * 칼라테마
@@ -15,3 +16,10 @@ $color5: #efd9ce;
         @content;
     }
 }
+@mixin mobile2() {
+    @media only screen and (max-width: $mobile-width2) {
+        @content;
+    }
+}
+
+

@@ -16,23 +16,31 @@ class Index extends React.Component {
     constructor(props) {
         console.log("Index 생성자 호출")
         super(props);
-        
+
         this.state = {
             word: "",
             result: "",
             list: this.props.list
         }
-        
+
         app.view.Index = this;
         app.router = this.props.router;
     }
 
     handleChange(e) {
-        this.setState({ word: e.target.value })
-        let ta = e.target;
+        this.setState({ word: e.target.value }, this.resizeInput)
+    }
+
+
+    resizeInput = () => {
+        let ta = this.input;
 
         if (ta.scrollHeight > ta.offsetHeight) {
             ta.style.height = ta.scrollHeight + "px"
+        }
+
+        if (this.state.word === "") {
+            ta.style.height = "";
         }
     }
 
@@ -78,10 +86,10 @@ class Index extends React.Component {
         saveWord(this.state.word);
     }
 
-    logoClick(){
+    logoClick() {
         //location.href = "/"
-        
-        this.setState({word: "", result: ""}, () => {
+
+        this.setState({ word: "", result: "" }, () => {
             app.router.push("/");
         })
     }
@@ -89,19 +97,23 @@ class Index extends React.Component {
 
     static async getInitialProps({ req, asPath }) {
         console.log("Index의 getInitialProps 호출")
-        let {list} = await wordList();
-        if(req){
+        let { list } = await wordList();
+        if (req) {
             // 서버에서
-        }else{
+        } else {
             // 클라이언트에서
             app.view.Index.state.list = list;
         }
-        return {list}
+        return { list }
     }
 
 
     componentDidMount() {
         this.input.focus();
+    }
+
+    initWord = () => {
+        this.setState({ word: "", result: "" }, this.resizeInput)
     }
 
 
@@ -122,6 +134,9 @@ class Index extends React.Component {
                         </div>
                         <div className="word">
                             <textarea value={this.state.word} ref={ele => { this.input = ele }} onChange={this.handleChange.bind(this)}></textarea>
+                            {this.state.word &&
+                                <div className="icon-cancel delete" onClick={this.initWord} />
+                            }
                             <button onClick={this.search.bind(this)}>검색</button>
                         </div>
                         {

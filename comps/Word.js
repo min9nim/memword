@@ -44,6 +44,7 @@ class Word extends React.Component {
 
     wordClick(){
         app.view.Index.setState({word: this.props.word.word}, () => {
+            app.view.Index.resizeInput();
             app.view.Index.search();
         })
     }
