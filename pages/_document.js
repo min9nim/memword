@@ -17,16 +17,15 @@ export default class MyDocument extends Document {
                     <meta name="viewport" content="initial-scale=1.0, width=device-width" />
                     <meta name="theme-color" content="#343a40"></meta>
 
-                    {/* Fontello 아이콘 */}
+                    {/* 공통 css */}
                     <link rel="stylesheet" href="/static/css/style.css"></link>
+
+                    {/* Fontello 아이콘 */}
                     <link rel="stylesheet" href="/static/fontello/css/fontello.css"></link>
 
 
                     <style>{`
-                    body {
-                        margin: 0px;
-                        background-color: #fafafa;
-                    }
+
                     `}</style>
                 </Head>
                 <body>

@@ -1,0 +1,37 @@
+body {
+    margin: 0px;
+    background-color: #fafafa;
+}
+
+
+/* 로고 폰트 */
+@import url(//db.onlinewebfonts.com/c/bfa3df4b2d5be81d672f0d5e87faa978?family=DTLArgoTCaps);
+@font-face {font-family: "logofont";
+    src: url("//db.onlinewebfonts.com/t/bfa3df4b2d5be81d672f0d5e87faa978.eot");
+    src: url("//db.onlinewebfonts.com/t/bfa3df4b2d5be81d672f0d5e87faa978.eot?#iefix") format("embedded-opentype"),
+    url("//db.onlinewebfonts.com/t/bfa3df4b2d5be81d672f0d5e87faa978.woff2") format("woff2"),
+    url("//db.onlinewebfonts.com/t/bfa3df4b2d5be81d672f0d5e87faa978.woff") format("woff"),
+    url("//db.onlinewebfonts.com/t/bfa3df4b2d5be81d672f0d5e87faa978.ttf") format("truetype"),
+    url("//db.onlinewebfonts.com/t/bfa3df4b2d5be81d672f0d5e87faa978.svg#DTLArgoTCaps") format("svg");
+}
+/*
+@import url(//db.onlinewebfonts.com/c/539094d13bdf08758ec44d8e2fd61bf8?family=KarminaSansW01-HeavyItalic);
+@font-face {font-family: "logofont";
+    src: url("//db.onlinewebfonts.com/t/539094d13bdf08758ec44d8e2fd61bf8.eot");
+    src: url("//db.onlinewebfonts.com/t/539094d13bdf08758ec44d8e2fd61bf8.eot?#iefix") format("embedded-opentype"),
+    url("//db.onlinewebfonts.com/t/539094d13bdf08758ec44d8e2fd61bf8.woff2") format("woff2"),
+    url("//db.onlinewebfonts.com/t/539094d13bdf08758ec44d8e2fd61bf8.woff") format("woff"),
+    url("//db.onlinewebfonts.com/t/539094d13bdf08758ec44d8e2fd61bf8.ttf") format("truetype"),
+    url("//db.onlinewebfonts.com/t/539094d13bdf08758ec44d8e2fd61bf8.svg#KarminaSansW01-HeavyItalic") format("svg");
+}
+*/
+
+/* @import url(//db.onlinewebfonts.com/c/13b003e481c54fdf324c9ed0d312d49c?family=Colopocle);
+@font-face {font-family: "logofont";
+    src: url("//db.onlinewebfonts.com/t/13b003e481c54fdf324c9ed0d312d49c.eot");
+    src: url("//db.onlinewebfonts.com/t/13b003e481c54fdf324c9ed0d312d49c.eot?#iefix") format("embedded-opentype"),
+    url("//db.onlinewebfonts.com/t/13b003e481c54fdf324c9ed0d312d49c.woff2") format("woff2"),
+    url("//db.onlinewebfonts.com/t/13b003e481c54fdf324c9ed0d312d49c.woff") format("woff"),
+    url("//db.onlinewebfonts.com/t/13b003e481c54fdf324c9ed0d312d49c.ttf") format("truetype"),
+    url("//db.onlinewebfonts.com/t/13b003e481c54fdf324c9ed0d312d49c.svg#Colopocle") format("svg");
+} */
