@@ -95,6 +95,10 @@ class Index extends React.Component {
         })
     }
 
+    shouldComponentUpdate(nextProps, nextState) {
+        return R.complement(R.equals)(this.state, nextState)
+    }
+
 
     static async getInitialProps({ req, asPath }) {
         console.log("Index의 getInitialProps 호출")
@@ -113,10 +117,11 @@ class Index extends React.Component {
         this.input.focus();
     }
 
-    initWord = () => {
-        this.setState({ word: "", result: "" })
+    initWord = async () => {
+        const {list} = await wordList();
+        this.setState({ word: "", result: "", list })
+        this.input.focus();
     }
-
 
     render() {
         console.log("Index 렌더링")
