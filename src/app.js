@@ -5,9 +5,13 @@ const app = {
 }
 
 if (process.env.NODE_ENV === "production") {
-    app.BACKEND = "https://memword.herokuapp.com"
+    if(process.env.isHeroku === "true"){
+        app.BACKEND = "https://memword.herokuapp.com"
+    }else{
+        app.BACKEND = "//word-trans.appspot.com"
+    }
 }else{
-    app.BACKEND = "http://localhost:3000"
+    app.BACKEND = "//localhost:3000"
 }
 
 

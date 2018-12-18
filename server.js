@@ -25,7 +25,13 @@ app.prepare()
 
 
   const PORT = dev ? 3000 : Number(process.env.PORT)
-  const HOST = dev ? "http://localhost" : "https://memword.herokuapp.com";
+  const HOST = dev ? "http://localhost" : (
+    process.env.isHeroku === "true"
+      ?
+      "https://memword.herokuapp.com"
+      :
+      "https://word-trans.appspot.com"
+    )
 
   server.listen(PORT, (err) => {
     if (err) throw err
