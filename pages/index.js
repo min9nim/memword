@@ -80,19 +80,6 @@ class Index extends React.Component {
             },
         )(this.state.word)
 
-
-        // R.pipeP(
-        //     getResult,
-        //     result => this.setState({ result }),
-
-        // )(this.state.word)
-
-
-
-        // getResult(this.state.word).then(result => {
-        //     this.setState({ result });
-        // })
-
         saveWord(this.state.word);
     }
 
@@ -132,16 +119,16 @@ class Index extends React.Component {
 
     render() {
         console.log("Index 렌더링")
-        
-        const res = this.state.loading
+
+        const res = this.state.result
             ?
-            <Facebook />
-            :
             <React.Fragment>
                 <div className="title2">검색 결과</div>
                 <div className="result" dangerouslySetInnerHTML={{ __html: this.state.result }}>
                 </div>
             </React.Fragment>
+            :
+            <Facebook />
 
         const finded = <React.Fragment>
             <div className="title2">내가 찾아본 단어</div>
@@ -177,8 +164,7 @@ class Index extends React.Component {
                         </div>
                         <div className="resultWrapper">
                             {
-                                this.state.result ? res : finded
-
+                                this.state.result === "" && !this.state.loading ? finded : res
                             }
                         </div>
                     </div>
