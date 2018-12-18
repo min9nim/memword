@@ -5,6 +5,8 @@ import { withRouter } from 'next/router'
 import { observable, reaction, decorate } from "mobx";
 const R = require("ramda");
 import Word from "../comps/Word";
+import ContentLoader, { Facebook } from 'react-content-loader'
+
 import "./index.scss"
 
 class Index extends React.Component {
@@ -15,12 +17,13 @@ class Index extends React.Component {
         this.state = {
             word: "",
             result: "",
+            loading: false,
             list: this.props.list
         }
 
         // 변이를 추적할 상태 지정
-        decorate(this, {state: observable});  // or this.state = observable(this.state);
-        
+        decorate(this, { state: observable });  // or this.state = observable(this.state);
+
         // 변화에 따른 효과를 정의
         reaction(() => this.state.word, this.resizeInput);
 
@@ -54,13 +57,6 @@ class Index extends React.Component {
             return;
         }
 
-
-        // if (this.state.word.trim().split(" ").length > 1) {
-        //     result = await reqWords(this.state.word);
-        // } else {
-        //     result = await reqWord(this.state.word);
-        // }
-
         const getResult = R.ifElse(
             R.pipe(
                 R.trim,
@@ -72,19 +68,30 @@ class Index extends React.Component {
             reqWord
         )
 
-        // $m._pipe(
+        this.setState({ loading: true });
+
+        R.pipeP(
+            getResult,
+            result => {
+                this.setState({
+                    result,
+                    loading: false
+                })
+            },
+        )(this.state.word)
+
+
+        // R.pipeP(
         //     getResult,
-        //     $m._trace("after getReuslt"),
-        //     (res) => {debugger; return res;},
-        //     R.prop("then")(result => {
-        //         this.setState({ result });
-        //     })
+        //     result => this.setState({ result }),
 
         // )(this.state.word)
 
-        getResult(this.state.word).then(result => {
-            this.setState({ result });
-        })
+
+
+        // getResult(this.state.word).then(result => {
+        //     this.setState({ result });
+        // })
 
         saveWord(this.state.word);
     }
@@ -118,13 +125,36 @@ class Index extends React.Component {
     }
 
     initWord = async () => {
-        const {list} = await wordList();
+        const { list } = await wordList();
         this.setState({ word: "", result: "", list })
         this.input.focus();
     }
 
     render() {
         console.log("Index 렌더링")
+        
+        const res = this.state.loading
+            ?
+            <Facebook />
+            :
+            <React.Fragment>
+                <div className="title2">검색 결과</div>
+                <div className="result" dangerouslySetInnerHTML={{ __html: this.state.result }}>
+                </div>
+            </React.Fragment>
+
+        const finded = <React.Fragment>
+            <div className="title2">내가 찾아본 단어</div>
+            <div className="history">
+                <ul>
+                    {
+                        this.state.list.map(o => <Word key={o.id} word={o} />)
+                    }
+                </ul>
+            </div>
+        </React.Fragment>
+
+
         return (
             <div className="index">
                 <div className="upper">
@@ -145,26 +175,12 @@ class Index extends React.Component {
                             }
                             <button onClick={this.search.bind(this)}>검색</button>
                         </div>
-                        {
-                            this.state.result
-                                ?
-                                <React.Fragment>
-                                    <div className="title2">검색 결과</div>
-                                    <div className="result" dangerouslySetInnerHTML={{ __html: this.state.result }}>
-                                    </div>
-                                </React.Fragment>
-                                :
-                                <React.Fragment>
-                                    <div className="title2">내가 찾아본 단어</div>
-                                    <div className="history">
-                                        <ul>
-                                            {
-                                                this.state.list.map(o => <Word key={o.id} word={o} />)
-                                            }
-                                        </ul>
-                                    </div>
-                                </React.Fragment>
-                        }
+                        <div className="resultWrapper">
+                            {
+                                this.state.result ? res : finded
+
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

@@ -12,10 +12,7 @@ export async function reqWord(word) {
         method: "GET"
     })
 
-    if (res.status === 200) {
-        let text = await res.text();
-        return text;
-    }
+    return await res.text();
 }
 
 
