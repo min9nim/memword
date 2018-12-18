@@ -7,7 +7,11 @@ db.once('open', function () {
     console.log("Connected to mongod server");
 });
 
-const dbcon = process.env.NODE_ENV === 'production'
+const dbcon = (
+        process.env.isHeroku === "true"
+        &&
+        process.env.NODE_ENV === 'production'
+    )
     ?
     process.env.db
     :

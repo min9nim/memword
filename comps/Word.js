@@ -1,8 +1,12 @@
 import $m from "../com/util";
 import { deleteWord } from "../src/restful";
 import { equals, complement } from "ramda"
+import moment from "moment";
 import "./Word.scss";
 import app from "../src/app";
+
+moment.locale("ko");
+
 
 const remove = async (word, dom) => {
     if (!confirm("삭제합니다")) {
@@ -58,6 +62,9 @@ class Word extends React.Component {
                 <div className="word">
                     <div className="value" onClick={this.wordClick.bind(this)} onMouseLeave={e => {e.target.style.color=""}} onMouseEnter={e => {e.target.style.color="green"}}>
                         {word.word} <sup>{word.hit}</sup>
+                    </div>
+                    <div className="date">
+                        {moment(word.updatedAt).fromNow()}
                     </div>
 
                     <div className="remove" onClick={() => remove(word, this.dom)} onMouseLeave={() => mouseleave(this.dom)} onMouseEnter={() => mouseenter(this.dom)}>
