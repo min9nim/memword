@@ -7,8 +7,9 @@
     "dev": "node server.js",
     "devmon": "nodemon server.js",
     "build": "next build",
+    "start" : "if test \"$isHeroku\" = \"true\" ; then npm run build ; fi NODE_ENV=production node server.js -p $PORT ",
     "heroku-start": "npm run build && NODE_ENV=production node server.js -p $PORT",
-    "start": "NODE_ENV=production node server.js -p $PORT"
+    "gcp-start": "NODE_ENV=production node server.js -p $PORT"
   },
   "keywords": [],
   "author": "mg.song",
