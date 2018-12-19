@@ -1,0 +1,14 @@
+@import "../src/com/com.scss";
+
+$font-size: 16px;
+$font-family: '굴림';
+
+
+.index {
+    font-family: $font-family;
+    font-size: $font-size;
+    color: #fff;
+    display: flex;
+    flex-direction: column;
+
+}

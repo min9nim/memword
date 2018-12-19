@@ -5,7 +5,8 @@ import { withRouter } from 'next/router'
 import { observable, reaction, decorate } from "mobx";
 const R = require("ramda");
 import Word from "../comps/Word";
-import ContentLoader, { Facebook } from 'react-content-loader'
+import { Facebook } from 'react-content-loader'
+import Layout from "../comps/Layout";
 
 import "./index.scss"
 
@@ -20,6 +21,15 @@ class Index extends React.Component {
             loading: false,
             list: this.props.list
         }
+
+        app.state.menuIdx = props.menuIdx;
+
+        if (props.user && props.user.id) {
+            app.state.userID = props.user.id;
+            app.user = props.user;
+            global.sessionStorage && global.sessionStorage.setItem("user", JSON.stringify(app.user))
+        }
+
 
         // 변이를 추적할 상태 지정
         decorate(this, { state: observable });  // or this.state = observable(this.state);
@@ -72,7 +82,7 @@ class Index extends React.Component {
 
         R.pipeP(
             getResult,
-            result => {
+            ({result}) => {
                 this.setState({
                     result,
                     loading: false
@@ -83,11 +93,6 @@ class Index extends React.Component {
         saveWord(this.state.word);
     }
 
-    logoClick() {
-        this.setState({ word: "", result: "" }, () => {
-            app.router.push("/");
-        })
-    }
 
     shouldComponentUpdate(nextProps, nextState) {
         return R.complement(R.equals)(this.state, nextState)
@@ -96,14 +101,21 @@ class Index extends React.Component {
 
     static async getInitialProps({ req, asPath }) {
         console.log("Index의 getInitialProps 호출")
+        let user = app.getUser(req);
+        
+        app.user.token = user.token;
+
         let { list } = await wordList();
+        
+        app.state.menuIdx = app.state.menu.findIndex(m => m.path === asPath);
+
         if (req) {
             // 서버에서
         } else {
             // 클라이언트에서
-            app.view.Index.state.list = list;
+            //app.view.Index.state.list = list;
         }
-        return { list }
+        return { list, user, menuIdx: app.state.menuIdx}
     }
 
 
@@ -131,7 +143,7 @@ class Index extends React.Component {
             <Facebook />
 
         const finded = <React.Fragment>
-            <div className="title2">내가 찾아본 단어</div>
+            <div className="title2">{app.state.menu[app.state.menuIdx].label}</div>
             <div className="history">
                 <ul>
                     {
@@ -143,13 +155,7 @@ class Index extends React.Component {
 
 
         return (
-            <div className="index">
-                <div className="upper">
-                    <div className="wrapper">
-                        <div className="logo" onClick={this.logoClick.bind(this)}>memword</div>
-                        <div className="slogan">한번 몰랐던 영단어 두번 모르지 말자!</div>
-                    </div>
-                </div>
+            <Layout>
                 <div className="lower">
                     <div className="wrapper">
                         <div className="title">
@@ -169,7 +175,7 @@ class Index extends React.Component {
                         </div>
                     </div>
                 </div>
-            </div>
+            </Layout>
         )
     }
 }

@@ -63,9 +63,16 @@ class Word extends React.Component {
                     <div className="value" onClick={this.wordClick.bind(this)} onMouseLeave={e => {e.target.style.color=""}} onMouseEnter={e => {e.target.style.color="green"}}>
                         {word.word} <sup>{word.hit}</sup>
                     </div>
+
+
                     <div className="date">
                         {moment(word.updatedAt).fromNow()}
                     </div>
+
+                    <div className="name">
+                        {`by ${word.userName}`}
+                    </div>
+
 
                     <div className="remove" onClick={() => remove(word, this.dom)} onMouseLeave={() => mouseleave(this.dom)} onMouseEnter={() => mouseenter(this.dom)}>
                         <i className="icon-trash-empty" />

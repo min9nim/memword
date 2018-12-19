@@ -1,0 +1,102 @@
+@import "../src/com/com.scss";
+.upper {
+    background-color: #343a40;
+    height: 80px;
+    padding: 5px 100px 20px 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    .wrapper {
+        display: flex;
+        flex: 1;
+        max-width: 800px;
+        align-items: center;
+        position: relative;
+        .title{
+            flex:1;
+            .logo {
+                //color: $color5;
+                font-family: "logofont";
+                display: inline-block;
+                font-size: 30px;
+                font-weight: bold;
+                margin-bottom: 10px;
+                cursor: pointer;
+            }
+        }
+
+        .login {
+            display: flex;
+            padding: 0px 3px 5px 8px;
+            .add-btn {
+                margin-right: 15px;
+                cursor: pointer;
+                font-size: 23px;
+                padding-top: 0px;
+                text-align: center;
+                padding-right: 0px;
+                border: 1px solid #ddd;
+                border-radius: 24px;
+                background-color: #f6f6f6;
+                width: 27px;
+                padding-left: 1px;
+                height: 26px;
+                &:hover {
+                    background-color: #eee;
+                    color: black;
+                }
+            }
+            .login-btn {
+                margin-right: 15px;
+                cursor: pointer;
+                font-size: 14px;
+                height: 16px;
+                padding: 6px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                background-color: #f6f6f6;
+                color: #555;
+                &:hover {
+                    background-color: #eee;
+                    color: black;
+                }
+            }
+            .user-name {
+                div {
+                    display: inline-block;
+                }
+                //margin-right: 15px;
+                margin-left: 3px;
+                cursor: pointer;
+                font-size: 15px;
+                padding: 6px 0px 6px 6px;
+            }
+            .user-image {
+                width: 30px;
+                height: 30px;
+                border-radius: 15px;
+            }
+        }        
+    }
+
+
+    
+}
+
+
+
+
+
+@include mobile() {
+    .upper {
+        padding: 0px 20px 10px 20px;
+        .wrapper {
+            .logo {
+                font-size: 25px;
+            }
+            .slogan {
+                font-size: 14px;
+            }
+        }
+    }
+}

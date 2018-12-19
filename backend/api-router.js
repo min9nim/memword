@@ -35,7 +35,7 @@ apiRouter.get("/list", async function (req, res) {
 apiRouter.get("/word/:word", function (req, res) {
     let url = `https://endic.naver.com/search.nhn?sLn=kr&isOnlyViewEE=N&query=${req.params.word}`
     webscrap(url).then(result => {
-        res.send(result)
+        res.send({result})
     });
 })
 
@@ -43,18 +43,23 @@ apiRouter.get("/word/:word", function (req, res) {
 // 문장검색
 apiRouter.get("/words/:words", function (req, res) {
     translate(req.params.words).then(result => {
-        res.send(result);
+        res.send({result});
     })
 })
 
 // 찾았던 단어 등록
 apiRouter.post("/save", async function (req, res) {
+    if(!req.isLogin){
+        sendErr(res)(new Error("Not authorized"))
+    }
 
     let word = await Word.findOne({ word: req.body.word.trim() });
 
     if (word) {
         Object.assign(word, {
             updatedAt: Date.now(),
+            userId: req.user.id,
+            userName: req.user.name,
             hit: word.hit + 1
         });
     } else {
@@ -62,6 +67,8 @@ apiRouter.post("/save", async function (req, res) {
         Object.assign(word, {
             id: shortid.generate(),
             word: req.body.word.trim(),
+            userId: req.user.id,
+            userName: req.user.name,
             createdAt: Date.now(),
             updatedAt: Date.now(),
             hit: 1
@@ -81,6 +88,9 @@ apiRouter.post("/save", async function (req, res) {
 
 
 apiRouter.delete("/delete/:id", async function (req, res) {
+
+    // 권한 체크 추가
+
 
     let word = await Word.findOne({ id: req.params.id });
 
@@ -105,3 +115,25 @@ apiRouter.delete("/delete/:id", async function (req, res) {
     let output = await word.save();
 
 })
+
+
+apiRouter.post("/login", async function (req, res) {
+    //console.log("req.body.token = " + req.body.token);
+   try {
+        if(req.isLogin){
+            res.set('Content-Type', 'application/json').send({
+                status: "Success",
+                user: req.user
+            })
+        }else{
+            throw Error("Login is required")
+        }
+    } catch (e) {
+        sendErr(res)(e)
+    }
+})
+
+
+
+
+
