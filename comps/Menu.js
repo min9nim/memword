@@ -1,5 +1,7 @@
 import { withRouter } from 'next/router'
 import app from "../src/app";
+import { reqWord, reqWords, saveWord, wordList, deleteWord } from "../src/restful";
+
 import "./Menu.scss";
 
 class Menu extends React.Component {
@@ -43,7 +45,7 @@ class Menu extends React.Component {
             app.router.push(app.state.menu[idx].path);
             //app.state.totalCount = "?";
             //app.state.isScrollLast = false;
-            let fetchRes = await app.api.wordList({menuIdx: idx});
+            //await wordList({menuIdx: idx});
 
             this.props.hideMenu();
         }

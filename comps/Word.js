@@ -1,5 +1,6 @@
 import $m from "../com/util";
-import { deleteWord } from "../src/restful";
+import { reqWord, reqWords, saveWord, wordList, deleteWord } from "../src/restful";
+
 import { equals, complement } from "ramda"
 import moment from "moment";
 import "./Word.scss";
