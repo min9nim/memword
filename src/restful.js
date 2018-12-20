@@ -18,7 +18,7 @@ const req = async (path, method, body) => {
         console.log("url = " + app.BACKEND + path)
         let res = await fetch(app.BACKEND + path, opt)
         // global.NProgress && global.NProgress.done();
-        
+
         if (res.status === 200) {
             let json = await res.json();
             if (json.status === "Fail") {
@@ -50,37 +50,15 @@ export async function reqWords(words) {
 
 }
 
-
 export async function saveWord(word) {
-    // let res = await fetch("/api/save", {
-    //     method: "POST",
-    //     body: JSON.stringify({ word }),
-    //     headers: {
-    //         'Content-Type': 'application/json',
-    //     }
-    // })
-
-    let res = await req("/api/save", "POST", { word });
-
-    if (res.status === 200) {
-        return await res.json();
-    }
+    return await req("/api/save", "POST", { word });
 }
 
 export async function deleteWord(id) {
-    // let res = await fetch("/api/delete/" + id, {
-    //     method: "DELETE"
-    // })
-
-    let res = await req("/api/delete/" + id, "DELETE")
-
-    if (res.status === 200) {
-        return await res.json();
-    }
+    return await req("/api/delete/" + id, "DELETE")
 }
 
 // 로그인처리
 export async function login() {
-    let json = await req("/api/login", "POST")
-    return json;
+    return await req("/api/login", "POST")
 }

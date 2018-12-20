@@ -19,7 +19,7 @@ class Index extends React.Component {
             word: "",
             result: "",
             loading: false,
-            list: this.props.list
+            list: this.props.list || []
         }
 
         app.state.menuIdx = props.menuIdx;

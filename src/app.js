@@ -8,12 +8,8 @@ const app = {
     state : {
         menu: [
             {
-                label: "전체 단어",
-                path: "/",
-            },
-            {
-                label: "내가 찾아 본 단어",
-                path: "/my",
+                label: "내가 찾아본 단어",
+                path: "/"
             }
         ],
         menuIdx: 0

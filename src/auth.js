@@ -83,6 +83,11 @@ export default function getAuth(app) {
                 token: ""
             };
             app.state.userID = "";
+            app.view.Index.setState({
+                word: "",
+                result: "",
+                list: []
+            })
 
             // 구글 로그아웃처리
             //let GoogleAuth = gapi.auth2.getAuthInstance();
