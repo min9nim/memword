@@ -156,7 +156,7 @@ class Index extends React.Component {
             <Facebook />
 
         const finded = <React.Fragment>
-            <div className="title2">{app.state.menu[app.state.menuIdx].label}</div>
+            <div className="title2">{app.auth.isLogin() ? app.state.menu[app.state.menuIdx].label : "로그인이 필요합니다 " }</div>
             <div className="history">
                 <ul>
                     {

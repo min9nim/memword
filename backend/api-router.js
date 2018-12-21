@@ -12,27 +12,6 @@ const apiRouter = express.Router();
 module.exports = apiRouter;
 
 
-// 이미지 프록시
-apiRouter.get("/proxy", async (req, res) => {
-    try{
-        request.get(req.query.url).pipe(res);
-    }catch(e){
-        sendErr(res)(e)
-    }
-})
-
-// 내가 찾은 단어 목록
-apiRouter.get("/list", async function (req, res) {
-    try {
-        let list = await Word.find({ userId: req.user.id }, { __v: 0, _id: 0 }, { sort: { updatedAt: -1 } });
-        //console.log("@@ list  = " + list);
-
-        res.set('Content-Type', 'application/json').send({ list })
-    } catch (e) {
-        sendErr(res)(e)
-    }
-})
-
 
 // 단어검색
 apiRouter.get("/word/:word", function (req, res) {
@@ -59,13 +38,58 @@ apiRouter.get("/words/:words", function (req, res) {
     }
 })
 
+
+// 이미지 프록시
+apiRouter.get("/proxy", async (req, res) => {
+    try {
+        request.get(req.query.url).pipe(res);
+    } catch (e) {
+        sendErr(res)(e)
+    }
+})
+
+
+
+
+// 내가 찾은 단어 목록
+apiRouter.get("/list", async function (req, res) {
+    try {
+        let list;
+        if(req.isLogin){
+            list = await Word.find({ userId: req.user.id }, { __v: 0, _id: 0 }, { sort: { updatedAt: -1 } });
+        }else{
+            list = [];
+        }
+        //console.log("@@ list  = " + list);
+
+        res.set('Content-Type', 'application/json').send({ list })
+    } catch (e) {
+        sendErr(res)(e)
+    }
+})
+
+
+
+
+
+// 아래 부터는 인증 필요
+apiRouter.use(async (req, res, next) => {
+    try {
+        if (!req.isLogin) {
+            throw new Error("@@ Not authorized");
+        } else {
+            next()
+        }
+    } catch (e) {
+        sendErr(res)(e)
+    }
+})
+
+
+
 // 찾았던 단어 등록
 apiRouter.post("/save", async function (req, res) {
     try {
-        if (!req.isLogin) {
-            throw new Error("Not authorized");
-        }
-
         let word = await Word.findOne({ word: req.body.word.trim() });
 
         if (word) {
@@ -135,14 +159,11 @@ apiRouter.delete("/delete/:id", async function (req, res) {
 apiRouter.post("/login", async function (req, res) {
     //console.log("req.body.token = " + req.body.token);
     try {
-        if (req.isLogin) {
-            res.set('Content-Type', 'application/json').send({
-                status: "Success",
-                user: req.user
-            })
-        } else {
-            throw Error("Login is required")
-        }
+        res.set('Content-Type', 'application/json').send({
+            status: "Success",
+            user: req.user
+        })
+
     } catch (e) {
         sendErr(res)(e)
     }
