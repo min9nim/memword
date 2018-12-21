@@ -4,6 +4,7 @@ import app from "../src/app";
 import { withRouter } from 'next/router'
 import { observable, reaction, decorate } from "mobx";
 const R = require("ramda");
+global.R = R;
 import Word from "../comps/Word";
 import { Facebook } from 'react-content-loader'
 import Layout from "../comps/Layout";
@@ -67,13 +68,15 @@ class Index extends React.Component {
             return;
         }
 
+        const isSentence = R.pipe(
+            R.trim,
+            R.split(" "),
+            R.length,
+            R.gt(R.__, 1)
+        )
+
         const getResult = R.ifElse(
-            R.pipe(
-                R.trim,
-                R.split(" "),
-                R.length,
-                R.gt(R.__, 1)
-            ),
+            isSentence,
             reqWords,
             reqWord
         )
@@ -90,7 +93,17 @@ class Index extends React.Component {
             },
         )(this.state.word)
 
-        saveWord(this.state.word);
+
+        R.pipe(
+            R.ifElse(
+                R.complement(isSentence),
+                R.toLower,
+                R.identity
+            ),
+            saveWord
+        )(this.state.word)
+
+        // saveWord(this.state.word);
     }
 
 
