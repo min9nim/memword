@@ -68,7 +68,7 @@ app.getUser = (req) => {
             userStr = global.sessionStorage.getItem("user");
         }
 
-        console.log("userStr = " + userStr);
+        // console.log("userStr = " + userStr);
 
         if (userStr) {
             let user = JSON.parse(userStr);
