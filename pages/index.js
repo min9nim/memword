@@ -4,7 +4,11 @@ import app from "../src/app";
 import { withRouter } from 'next/router'
 import { observable, reaction, decorate } from "mobx";
 const R = require("ramda");
+global.R = R;
 import Word from "../comps/Word";
+import { Facebook } from 'react-content-loader'
+import Layout from "../comps/Layout";
+
 import "./index.scss"
 
 class Index extends React.Component {
@@ -15,12 +19,22 @@ class Index extends React.Component {
         this.state = {
             word: "",
             result: "",
-            list: this.props.list
+            loading: false,
+            list: this.props.list || []
         }
 
+        app.state.menuIdx = props.menuIdx;
+
+        if (props.user && props.user.id) {
+            app.state.userID = props.user.id;
+            app.user = props.user;
+            global.sessionStorage && global.sessionStorage.setItem("user", JSON.stringify(app.user))
+        }
+
+
         // 변이를 추적할 상태 지정
-        decorate(this, {state: observable});  // or this.state = observable(this.state);
-        
+        decorate(this, { state: observable });  // or this.state = observable(this.state);
+
         // 변화에 따른 효과를 정의
         reaction(() => this.state.word, this.resizeInput);
 
@@ -54,46 +68,44 @@ class Index extends React.Component {
             return;
         }
 
-
-        // if (this.state.word.trim().split(" ").length > 1) {
-        //     result = await reqWords(this.state.word);
-        // } else {
-        //     result = await reqWord(this.state.word);
-        // }
+        const isSentence = R.pipe(
+            R.trim,
+            R.split(" "),
+            R.length,
+            R.gt(R.__, 1)
+        )
 
         const getResult = R.ifElse(
-            R.pipe(
-                R.trim,
-                R.split(" "),
-                R.length,
-                R.gt(R.__, 1)
-            ),
+            isSentence,
             reqWords,
             reqWord
         )
 
-        // $m._pipe(
-        //     getResult,
-        //     $m._trace("after getReuslt"),
-        //     (res) => {debugger; return res;},
-        //     R.prop("then")(result => {
-        //         this.setState({ result });
-        //     })
+        this.setState({ loading: true });
 
-        // )(this.state.word)
+        R.pipeP(
+            getResult,
+            ({result}) => {
+                this.setState({
+                    result,
+                    loading: false
+                })
+            },
+        )(this.state.word)
 
-        getResult(this.state.word).then(result => {
-            this.setState({ result });
-        })
 
-        saveWord(this.state.word);
+        R.pipe(
+            R.ifElse(
+                R.complement(isSentence),
+                R.toLower,
+                R.identity
+            ),
+            saveWord
+        )(this.state.word)
+
+        // saveWord(this.state.word);
     }
 
-    logoClick() {
-        this.setState({ word: "", result: "" }, () => {
-            app.router.push("/");
-        })
-    }
 
     shouldComponentUpdate(nextProps, nextState) {
         return R.complement(R.equals)(this.state, nextState)
@@ -102,14 +114,21 @@ class Index extends React.Component {
 
     static async getInitialProps({ req, asPath }) {
         console.log("Index의 getInitialProps 호출")
+        let user = app.getUser(req);
+        
+        app.user.token = user.token;
+
         let { list } = await wordList();
+        
+        app.state.menuIdx = app.state.menu.findIndex(m => m.path === asPath);
+
         if (req) {
             // 서버에서
         } else {
             // 클라이언트에서
-            app.view.Index.state.list = list;
+            //app.view.Index.state.list = list;
         }
-        return { list }
+        return { list, user, menuIdx: app.state.menuIdx}
     }
 
 
@@ -118,21 +137,38 @@ class Index extends React.Component {
     }
 
     initWord = async () => {
-        const {list} = await wordList();
+        const { list } = await wordList();
         this.setState({ word: "", result: "", list })
         this.input.focus();
     }
 
     render() {
         console.log("Index 렌더링")
-        return (
-            <div className="index">
-                <div className="upper">
-                    <div className="wrapper">
-                        <div className="logo" onClick={this.logoClick.bind(this)}>memword</div>
-                        <div className="slogan">한번 몰랐던 영단어 두번 모르지 말자!</div>
-                    </div>
+
+        const res = this.state.result
+            ?
+            <React.Fragment>
+                <div className="title2">검색 결과</div>
+                <div className="result" dangerouslySetInnerHTML={{ __html: this.state.result }}>
                 </div>
+            </React.Fragment>
+            :
+            <Facebook />
+
+        const finded = <React.Fragment>
+            <div className="title2">{app.auth.isLogin() ? app.state.menu[app.state.menuIdx].label : "로그인이 필요합니다 " }</div>
+            <div className="history">
+                <ul>
+                    {
+                        this.state.list.map(o => <Word key={o.id} word={o} />)
+                    }
+                </ul>
+            </div>
+        </React.Fragment>
+
+
+        return (
+            <Layout>
                 <div className="lower">
                     <div className="wrapper">
                         <div className="title">
@@ -145,29 +181,14 @@ class Index extends React.Component {
                             }
                             <button onClick={this.search.bind(this)}>검색</button>
                         </div>
-                        {
-                            this.state.result
-                                ?
-                                <React.Fragment>
-                                    <div className="title2">검색 결과</div>
-                                    <div className="result" dangerouslySetInnerHTML={{ __html: this.state.result }}>
-                                    </div>
-                                </React.Fragment>
-                                :
-                                <React.Fragment>
-                                    <div className="title2">내가 찾아본 단어</div>
-                                    <div className="history">
-                                        <ul>
-                                            {
-                                                this.state.list.map(o => <Word key={o.id} word={o} />)
-                                            }
-                                        </ul>
-                                    </div>
-                                </React.Fragment>
-                        }
+                        <div className="resultWrapper">
+                            {
+                                this.state.result === "" && !this.state.loading ? finded : res
+                            }
+                        </div>
                     </div>
                 </div>
-            </div>
+            </Layout>
         )
     }
 }

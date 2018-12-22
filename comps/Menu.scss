@@ -1,0 +1,48 @@
+@import "../src/com/com.scss";
+.menu {
+    color: #888;
+    z-index: 1;
+    position: absolute;
+    right: 0px;
+    top: 50px;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 17px;
+    border-radius: 7px;
+    box-shadow: rgba(16, 58, 102, 0.2) 0px 5px 50px -5px;
+    font-family: sans-serif;
+    .user-info {
+        display: flex;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 5px;
+        justify-content: flex-start;
+        .user-name {
+            margin-right: 20px;
+            margin-left: 3px;
+            cursor: pointer;
+            font-size: 16px;
+            padding: 5px;
+            font-weight: bold;
+        }
+        .user-image {
+            width: 30px;
+            height: 30px;
+            border-radius: 15px;
+        }
+    }
+    .item, .item2 {
+        >div {
+            cursor: pointer;
+            margin-top: 10px; //margin-bottom: 10px;
+        }
+        >div:hover {
+            //color: $site-color-light;
+            font-weight: bold;
+        }
+    }
+    .item2 {
+        border-top: 1px solid #eee;
+        margin-top: 10px;
+    }
+}

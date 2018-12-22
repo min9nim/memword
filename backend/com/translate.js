@@ -7,10 +7,8 @@ const fs_writeFile = util.promisify(fs.writeFile)
 
 const projectId = 'word-trans';
 
-console.log("## 새로운 변경사항");
-
 if (process.env.isHeroku === "true" && process.env.NODE_ENV === 'production') {
-    console.log("운영: 동적으로 memword-trans.json 파일 생성");
+    console.log("HEROKU: 동적으로 memword-trans.json 파일 생성");
     R.pipe(
         R.pick(["type", "project_id", "private_key_id", "private_key", "client_email", "client_id", "auth_uri", "token_uri", "auth_provider_x509_cert_url", "client_x509_cert_url"]),
         json => JSON.stringify(json, "", 2),
@@ -20,7 +18,7 @@ if (process.env.isHeroku === "true" && process.env.NODE_ENV === 'production') {
         jsonstr => fs_writeFile('word-trans.json', jsonstr)
     )(process.env)
 } else {
-    console.log("개발: 로컬 word-trans.json 파일 사용 ");
+    console.log("로컬 word-trans.json 파일 사용 ");
 }
 
 process.env.GOOGLE_APPLICATION_CREDENTIALS = __dirname + "/../../word-trans.json";

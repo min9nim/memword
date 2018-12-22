@@ -12,7 +12,7 @@ function _getProtocol(url) {
 
 function sendErr(res) {
     return err => {
-        console.log(err);
+        //console.log(err);
         //console.log("Login required")
         res.status(200).send({
             status: "Fail",
