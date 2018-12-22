@@ -20,10 +20,16 @@ const app = {
 console.log("@@ process.env.NODE_ENV = " + process.env.NODE_ENV)
 
 if (process.env.NODE_ENV === "production") {
-    if(process.env.isHeroku === "true"){
-        app.BACKEND = "https://memword.herokuapp.com"
-    }else{
-        app.BACKEND = "https://word-trans.appspot.com"
+    if (typeof window !== 'undefined') {
+        // client-side
+        app.BACKEND = window.location.origin;
+    } else {
+        // server-side
+        if(process.env.isHeroku === "true"){
+            app.BACKEND = "https://memword.herokuapp.com"
+        }else{
+            app.BACKEND = "https://word-trans.appspot.com"
+        }
     }
 }else{
     app.BACKEND = "http://localhost:3000"
