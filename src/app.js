@@ -17,7 +17,7 @@ const app = {
     view: {}        // 리액트 컴포넌트
 }
 
-
+console.log("@@ process.env.NODE_ENV = " + process.env.NODE_ENV)
 
 if (process.env.NODE_ENV === "production") {
     if(process.env.isHeroku === "true"){
