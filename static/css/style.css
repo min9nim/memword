@@ -9,8 +9,10 @@ body {
 @font-face {font-family: "logofont";
     src: url("//db.onlinewebfonts.com/t/bfa3df4b2d5be81d672f0d5e87faa978.eot");
     src: url("//db.onlinewebfonts.com/t/bfa3df4b2d5be81d672f0d5e87faa978.eot?#iefix") format("embedded-opentype"),
+/*  18.12.31
+    운영환경에서 woff 로드가 정상적으로 되지 않아서 주석처리 함
     url("//db.onlinewebfonts.com/t/bfa3df4b2d5be81d672f0d5e87faa978.woff2") format("woff2"),
-    url("//db.onlinewebfonts.com/t/bfa3df4b2d5be81d672f0d5e87faa978.woff") format("woff"),
+    url("//db.onlinewebfonts.com/t/bfa3df4b2d5be81d672f0d5e87faa978.woff") format("woff"),  */
     url("//db.onlinewebfonts.com/t/bfa3df4b2d5be81d672f0d5e87faa978.ttf") format("truetype"),
     url("//db.onlinewebfonts.com/t/bfa3df4b2d5be81d672f0d5e87faa978.svg#DTLArgoTCaps") format("svg");
 }
