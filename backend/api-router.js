@@ -54,6 +54,20 @@ apiRouter.get("/proxy", async (req, res) => {
 
 
 
+// 아래 부터는 인증 필요
+apiRouter.use(async (req, res, next) => {
+    try {
+        if (!req.isLogin) {
+            throw new Error("@@ Not authorized");
+        } else {
+            next()
+        }
+    } catch (e) {
+        sendErr(res)(e)
+    }
+})
+
+
 
 // 내가 찾은 단어 목록
 apiRouter.get("/list", async function (req, res) {
@@ -74,20 +88,6 @@ apiRouter.get("/list", async function (req, res) {
 
 
 
-
-
-// 아래 부터는 인증 필요
-apiRouter.use(async (req, res, next) => {
-    try {
-        if (!req.isLogin) {
-            throw new Error("@@ Not authorized");
-        } else {
-            next()
-        }
-    } catch (e) {
-        sendErr(res)(e)
-    }
-})
 
 
 
