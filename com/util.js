@@ -493,6 +493,10 @@ $m.nl2br = (str) => {
     return str.replace(/\n/g, "<br>")
 }
 
+$m.comma = num => {
+    var regexp = /\B(?=(\d{3})+(?!\d))/g;
+    return num.toString().replace(regexp, ',');
+}
 
 
 /**

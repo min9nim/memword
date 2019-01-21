@@ -1,6 +1,6 @@
 import { reqWord, reqWords, saveWord, wordList } from "../src/restful";
 import app from "../src/app";
-// import $m from "../com/util";
+import $m from "../com/util";
 import { withRouter } from 'next/router'
 import { observable, reaction, decorate } from "mobx";
 const R = require("ramda");
@@ -150,7 +150,7 @@ class Index extends React.Component {
         const res = this.state.result
             ?
             <React.Fragment>
-                <div className="title2">검색 결과({this.state.resTime + "ms"})</div>
+                <div className="title2">검색 결과({$m.comma(this.state.resTime) + "ms"})</div>
                 <div className="result" dangerouslySetInnerHTML={{ __html: this.state.result }}>
                 </div>
             </React.Fragment>

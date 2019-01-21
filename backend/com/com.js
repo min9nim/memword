@@ -69,11 +69,11 @@ function _bodyScrap(url) {
 //_bodyScrap = $ => _bodyScrap($, _getProtocol, _getHostname);
 
 
-const wrapWith = function(deco){
-    return function(str){
-        if(str.length > 0){
-            return deco[0]+str+deco[1];
-        }else{
+const wrapWith = function (deco) {
+    return function (str) {
+        if (str.length > 0) {
+            return deco[0] + str + deco[1];
+        } else {
             return str;
         }
     }
@@ -161,10 +161,11 @@ function clearRedisWhenCUD(req, res, next) {
     next();
 }
 
-function isExpired(exp){
+function isExpired(exp) {
     let month = 1000 * 60 * 60 * 24 * 30;
     return Date.now() > exp + month;  // 만료시간을 임의로 한달 연장
 }
+
 
 module.exports = {
     _getHostname, _getProtocol, _bodyScrap,
