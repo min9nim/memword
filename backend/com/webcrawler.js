@@ -26,11 +26,13 @@ const webscrap = (url) => queue(url).then(({ err, res, $ }) => {
         throw err
     } else {
         let css = `<link type="text/css" rel="stylesheet" href="https://ssl.pstatic.net/dicimg/endic/style/201811141550/css/common_font.css?20181204174058">
-		<link type="text/css" rel="stylesheet" href="https://ssl.pstatic.net/dicimg/endic/style/201811141550/css/style_font.css?20181204174058">
-		<link type="text/css" rel="stylesheet" href="https://ssl.pstatic.net/dicimg/endic/style/201811141550/css/entry_add.css?20181204174058">
-		<link type="text/css" rel="stylesheet" href="https://ssl.pstatic.net/dicimg/endic/style/201811141550/css/style_category.css?20181204174058">
-		<link type="text/css" rel="stylesheet" href="https://ssl.pstatic.net/dicimg/endic/style/201811141550/css/comment.css?20181204174058">
-		<link rel="stylesheet" type="text/css" href="https://ssl.pstatic.net/dicimg/gnbcommon/style/gnbcommon/css/onenaver_gnb.css?2018120902">`
+        <link type="text/css" rel="stylesheet" href="https://ssl.pstatic.net/dicimg/endic/style/201811141550/css/style_font.css?20181204174058">
+        <style>
+        .list_e2 dd .align_right {
+            width: initial;
+        }
+        </style>
+        `
 
         let result = $("#content > .word_num").html()
             .replace(/a href="\//g, `a target="_blank" href="https://endic.naver.com/`)
