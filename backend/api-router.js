@@ -5,7 +5,7 @@ const webscrap = require("./com/webcrawler")
 const translate = require("./com/translate")
 const Word = require('./model/word');
 
-const { sendErr } = require("./com/com")
+const { sendErr, timelog } = require("./com/com")
 const request = require('request');
 
 const apiRouter = express.Router();
@@ -17,8 +17,10 @@ module.exports = apiRouter;
 apiRouter.get("/word/:word", function (req, res) {
     try {
         let url = `https://endic.naver.com/search.nhn?sLn=kr&isOnlyViewEE=N&query=${req.params.word}`
+        timelog.start("##");
         webscrap(url).then(result => {
-            res.send({ result })
+            let diff = timelog.check("@@");
+            res.send({ result, resTime : diff })
         });
     } catch (e) {
         sendErr(res)(e)
@@ -30,8 +32,10 @@ apiRouter.get("/word/:word", function (req, res) {
 // 문장검색
 apiRouter.get("/words/:words", function (req, res) {
     try {
+        timelog.start("##");
         translate(req.params.words).then(result => {
-            res.send({ result });
+            let diff = timelog.check("@@");
+            res.send({ result, resTime : diff })
         })
     } catch (e) {
         sendErr(res)(e)

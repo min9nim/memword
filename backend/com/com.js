@@ -69,17 +69,29 @@ function _bodyScrap(url) {
 //_bodyScrap = $ => _bodyScrap($, _getProtocol, _getHostname);
 
 
+const wrapWith = function(deco){
+    return function(str){
+        if(str.length > 0){
+            return deco[0]+str+deco[1];
+        }else{
+            return str;
+        }
+    }
+}
+const round_brackets = wrapWith("()");
+
 const timelog = (function () {
     let time = [];
     let o = {
-        start: function () {
+        start: function (str) {
             time = [Date.now()];
-            console.log("[timelog] start: " + new Date(time[0]).toString().substr(0, 24))
+            console.log(`[timelog] ${round_brackets(str)} start: ` + new Date(time[0]).toString().substr(0, 24))
         },
-        check: function () {
+        check: function (str) {
             time.push(Date.now())
             let diff = time[time.length - 1] - time[time.length - 2];
-            console.log("[timelog] + " + diff + "ms");
+            console.log(`[timelog] ${round_brackets(str)} +${diff}ms`);
+            return diff;
         }
     };
     return o;

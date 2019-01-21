@@ -56,7 +56,7 @@ class Word extends React.Component {
 
 
     render() {
-        console.log("Word 렌더링")
+        //console.log("Word 렌더링")
         const { word } = this.props;
         return (
             <li ref={el => { this.dom = el }} >

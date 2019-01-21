@@ -13,12 +13,13 @@ import "./index.scss"
 
 class Index extends React.Component {
     constructor(props) {
-        console.log("Index 생성자 호출")
+        // console.log("Index 생성자 호출")
         super(props);
 
         this.state = {
             word: "",
             result: "",
+            resTime: "",
             loading: false,
             list: this.props.list || []
         }
@@ -85,9 +86,10 @@ class Index extends React.Component {
 
         R.pipeP(
             getResult,
-            ({result}) => {
+            ({result, resTime}) => {
                 this.setState({
                     result,
+                    resTime,
                     loading: false
                 })
             },
@@ -113,7 +115,7 @@ class Index extends React.Component {
 
 
     static async getInitialProps({ req, asPath }) {
-        console.log("Index의 getInitialProps 호출")
+        // console.log("Index의 getInitialProps 호출")
         let user = app.getUser(req);
         
         app.user.token = user.token;
@@ -143,12 +145,12 @@ class Index extends React.Component {
     }
 
     render() {
-        console.log("Index 렌더링")
+        //console.log("Index 렌더링")
 
         const res = this.state.result
             ?
             <React.Fragment>
-                <div className="title2">검색 결과</div>
+                <div className="title2">검색 결과({this.state.resTime + "ms"})</div>
                 <div className="result" dangerouslySetInnerHTML={{ __html: this.state.result }}>
                 </div>
             </React.Fragment>
