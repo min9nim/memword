@@ -113,12 +113,13 @@ class Index extends React.Component {
 
 
     static async getInitialProps({ req, asPath }) {
-        console.log("Index의 getInitialProps 호출")
+        app.logger.verbose("Index의 getInitialProps 호출")
         let user = app.getUser(req);
         
         app.user.token = user.token;
 
         let { list } = await wordList();
+        app.logger.verbose('list:', list)
         
         app.state.menuIdx = app.state.menu.findIndex(m => m.path === asPath);
 

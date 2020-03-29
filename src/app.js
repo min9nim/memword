@@ -1,7 +1,9 @@
 import getAuth from "./auth";
 import base64js from "base64-js";
 import { isExpired } from "../src/com/pure";
-
+import createLogger from 'if-logger'
+import moment from 'moment'
+import cookie from 'cookie'
 
 const app = {
     user: {},
@@ -20,19 +22,9 @@ const app = {
 console.log("@@ process.env.NODE_ENV = " + process.env.NODE_ENV)
 
 if (process.env.NODE_ENV === "production") {
-    if (typeof window !== 'undefined') {
-        // client-side
-        app.BACKEND = window.location.origin;
-    } else {
-        // server-side
-        if(process.env.isHeroku === "true"){
-            app.BACKEND = "https://memword.herokuapp.com"
-        }else{
-            app.BACKEND = "https://word-trans.appspot.com"
-        }
-    }
+    app.BACKEND = "https://memword-api.now.sh"
 }else{
-    app.BACKEND = "http://localhost:3000"
+    app.BACKEND = "http://localhost:3030"
 }
 
 app.auth = getAuth(app)
@@ -63,33 +55,40 @@ app.getUser = (req) => {
     try {
         let userStr;
         if (req) {
-            userStr = Buffer.from(req.cookies.user || "", 'base64').toString('utf8');
+            const cookies = cookie.parse(req.headers.cookie)
+            userStr = Buffer.from(cookies.user || "", 'base64').toString('utf8');
         } else {
             userStr = global.sessionStorage.getItem("user");
         }
 
-        // console.log("userStr = " + userStr);
-
         if (userStr) {
             let user = JSON.parse(userStr);
             if (isExpired(user.exp * 1000)){
-                console.log("[getInitialProps] 로그인 실패 : Token is expired")
+                app.logger.verbose("[getInitialProps] 로그인 실패 : Token is expired")
                 return {};
             } else {
-                //console.log("[getInitialProps] 로그인 성공")
+                app.logger.verbose("[getInitialProps] 로그인 성공", user)
                 return user;
             }
         } else {
-            console.log("[getInitialProps] 로그인 실패 : user 정보 없음");
+            app.logger.verbose("[getInitialProps] 로그인 실패 : user 정보 없음");
             return {};
         }
     } catch (e) {
-        //console.error(e);
-        console.log(e.message)
+        app.logger.error(e)
         return {};
     }
 }
 
+app.logger = createLogger({
+  tags: [
+    () =>
+      moment()
+        .utc()
+        .add(9, 'hours')
+        .format('MM/DD HH:mm:ss'),
+  ],
+})
 
 global.app = app;
 export default app;
