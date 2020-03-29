@@ -1,4 +1,4 @@
-const Crawler = require("node-webcrawler");
+const Crawler = require("crawler");
 
 const c = new Crawler({
     maxConnections: 10,

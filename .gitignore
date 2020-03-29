@@ -4,3 +4,4 @@ node_modules
 .vscode
 word-trans.json
 dbConfig.js
+.DS_Store
