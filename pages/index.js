@@ -1,10 +1,21 @@
 import { reqWord, reqWords, saveWord, wordList } from '../src/restful'
 import app from '../src/app'
-// import $m from "../com/util";
 import { withRouter } from 'next/router'
 import { observable, reaction, decorate } from 'mobx'
-const R = require('ramda')
-global.R = R
+import {
+  pipe,
+  trim,
+  split,
+  length,
+  gt,
+  __,
+  ifElse,
+  pipeP,
+  complement,
+  toLower,
+  identity,
+  equals,
+} from 'ramda'
 import Word from '../comps/Word'
 import { Facebook } from 'react-content-loader'
 import Layout from '../comps/Layout'
@@ -66,21 +77,21 @@ class Index extends React.Component {
       return
     }
 
-    const isSentence = R.pipe(R.trim, R.split(' '), R.length, R.gt(R.__, 1))
+    const isSentence = pipe(trim, split(' '), length, gt(__, 1))
 
-    const getResult = R.ifElse(isSentence, reqWords, reqWord)
+    const getResult = ifElse(isSentence, reqWords, reqWord)
 
     this.setState({ loading: true })
 
-    R.pipeP(getResult, ({ result }) => {
+    pipeP(getResult, ({ result }) => {
       this.setState({
         result,
         loading: false,
       })
     })(this.state.word)
 
-    R.pipe(
-      R.ifElse(R.complement(isSentence), R.toLower, R.identity),
+    pipe(
+      ifElse(complement(isSentence), toLower, identity),
       saveWord,
     )(this.state.word)
 
@@ -88,7 +99,7 @@ class Index extends React.Component {
   }
 
   shouldComponentUpdate(nextProps, nextState) {
-    return R.complement(R.equals)(this.state, nextState)
+    return complement(equals)(this.state, nextState)
   }
 
   static async getInitialProps({ req, asPath }) {
