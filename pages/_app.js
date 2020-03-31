@@ -16,13 +16,6 @@ export default class MyApp extends App {
 
   render() {
     const { Component, pageProps } = this.props
-    return (
-      <Container>
-        <Head>
-          <title>같은 단어 한번만 모르자</title>
-        </Head>
-        <Component {...pageProps} />
-      </Container>
-    )
+    return <Component {...pageProps} />
   }
 }
