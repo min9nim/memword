@@ -1,88 +1,95 @@
-@import "../src/com/com.scss";
-
+@import '../src/com/com.scss';
 
 $font-size: 16px;
 $font-family: '굴림';
 
-
 .lower {
-    color: $color1;
-    padding: 20px 100px;
-    display: flex;
-    justify-content: center;
-    .wrapper {
-        flex: 1;
-        max-width: 800px;
-        .title {
-            margin-bottom: 5px;
-        }
-        .word {
-            display: flex;
-            align-items: center;
-            position: relative;
-            textarea {
-                width: 100%; //max-width: 1000px;
-                height: 31px;
-                color: #555;
-                overflow: initial;
-                overflow-y: hidden;
-                font-family: "\AD74\B9BC";
-                font-size: 25px;
-                line-height: initial;
-                margin: initial;
-                margin-right: 0px;
-                padding: 5px 17px 5px 5px;
-                font-family: $font-family;
-                resize: vertical;
-            }
-            .delete {
-                font-size: 18px;
-                font-weight: bold;
-                position: absolute;
-                /* display: inline; */
-                color: #999;
-                /* top: 144px; */
-                right: 80px;
-                cursor: pointer;
-                width: 0px;
-            }
-            button {
-                margin-left: 10px;
-                height: 30px;
-                width: 45px;
-                background: none;
-                background-color: #eee;
-                cursor: pointer;
-                border: initial;
-                font-size: small;
-                padding: 1px 7px 2px;
-                font-family: $font-family;
-            }
-        }
-        .resultWrapper {
-            margin-top: 20px;
-            .title2 {
-                margin-top: 20px;
-            }
-            .result {
-                margin-top: 20px;
-            }
-            .history {
-                ul {
-                    list-style: none;
-                    padding-inline-start: 10px;
-                    padding-right: 10px;
-                    li {
-                        margin: 10px 0px;
-                    }
-                }
-            }
-        }
+  color: $color1;
+  padding: 20px 100px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  button {
+    margin-left: 10px;
+    height: 30px;
+    background: none;
+    background-color: #eee;
+    cursor: pointer;
+    border: initial;
+    font-size: small;
+    padding: 1px 7px 2px;
+    font-family: $font-family;
+  }
+  .wrapper {
+    flex: 1;
+    max-width: 800px;
+    .title {
+      margin-bottom: 5px;
     }
+    button {
+      width: 45px;
+    }
+    .word {
+      display: flex;
+      align-items: center;
+      position: relative;
+      textarea {
+        width: 100%; //max-width: 1000px;
+        height: 31px;
+        color: #555;
+        overflow: initial;
+        overflow-y: hidden;
+        font-family: '\AD74\B9BC';
+        font-size: 25px;
+        line-height: initial;
+        margin: initial;
+        margin-right: 0px;
+        padding: 5px 17px 5px 5px;
+        font-family: $font-family;
+        resize: vertical;
+      }
+      .delete {
+        font-size: 18px;
+        font-weight: bold;
+        position: absolute;
+        /* display: inline; */
+        color: #999;
+        /* top: 144px; */
+        right: 80px;
+        cursor: pointer;
+        width: 0px;
+      }
+    }
+    .resultWrapper {
+      margin-top: 20px;
+      .title2 {
+        margin-top: 20px;
+      }
+      .result {
+        margin-top: 20px;
+      }
+      .history {
+        ul {
+          list-style: none;
+          padding-inline-start: 10px;
+          padding-right: 10px;
+          li {
+            margin: 10px 0px;
+          }
+        }
+      }
+    }
+  }
+  .list-btn {
+    text-align: center;
+    button {
+      width: 100px;
+    }
+  }
 }
 
 @include mobile() {
-    .lower {
-        padding: 20px 20px;
-    }
+  .lower {
+    padding: 20px 20px;
+  }
 }

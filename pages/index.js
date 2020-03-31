@@ -71,6 +71,11 @@ class Index extends React.Component {
     }
   }
 
+  goList() {
+    // this.props.router.push('/')
+    this.initWord()
+  }
+
   async search() {
     if (this.state.word === '') {
       //alert("단어나 문장을 입력하세요");
@@ -186,6 +191,11 @@ class Index extends React.Component {
               {this.state.result === '' && !this.state.loading ? finded : res}
             </div>
           </div>
+          {this.state.result !== '' && (
+            <div className="list-btn">
+              <button onClick={this.goList.bind(this)}>목록으로 이동</button>
+            </div>
+          )}
         </div>
       </Layout>
     )
