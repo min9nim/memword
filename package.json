@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "next dev",
+    "dev-local": "API=local next dev",
     "build": "next build",
     "start": "NODE_ENV=production node server.js -p $PORT "
   },

@@ -19,12 +19,10 @@ const app = {
   view: {}, // 리액트 컴포넌트
 }
 
-console.log('@@ process.env.NODE_ENV = ' + process.env.NODE_ENV)
-
-if (process.env.NODE_ENV === 'production') {
-  app.BACKEND = 'https://memword-api.now.sh'
-} else {
+if (process.env.API === 'local') {
   app.BACKEND = 'http://localhost:3030'
+} else {
+  app.BACKEND = 'https://memword-api.now.sh'
 }
 
 app.auth = getAuth(app)
