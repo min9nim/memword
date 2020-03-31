@@ -1,3 +1,10 @@
 // next.config.js
 const withSass = require('@zeit/next-sass')
-module.exports = withSass()
+const { API } = process.env
+module.exports = {
+  ...withSass(),
+  // distDir: '_next',
+  env: {
+    API,
+  },
+}
