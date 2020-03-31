@@ -78,10 +78,12 @@ class Index extends React.Component {
 
   async search() {
     if (this.state.word === '') {
-      //alert("단어나 문장을 입력하세요");
       return
     }
-
+    if (this.state.word.includes(' ')) {
+      alert('단어 사이 공백을 제거해 주세요')
+      return
+    }
     const isSentence = pipe(trim, split(' '), length, gt(__, 1))
 
     const getResult = ifElse(isSentence, reqWords, reqWord)
@@ -107,8 +109,11 @@ class Index extends React.Component {
     return complement(equals)(this.state, nextState)
   }
 
-  static async getInitialProps({ req, asPath }) {
+  static async getInitialProps(ctx) {
+    // console.log('ctx:', ctx)
+    const { req, res, pathname, query, asPath, AppTree } = ctx
     app.logger.verbose('Index의 getInitialProps 호출')
+
     let user = app.getUser(req)
 
     app.user.token = user.token
@@ -116,7 +121,7 @@ class Index extends React.Component {
     let { list } = await wordList()
     // app.logger.verbose('list:', list)
 
-    app.state.menuIdx = app.state.menu.findIndex(m => m.path === asPath)
+    app.state.menuIdx = app.state.menu.findIndex(m => m.path === pathname)
 
     if (req) {
       // 서버에서
@@ -127,8 +132,18 @@ class Index extends React.Component {
     return { list, user, menuIdx: app.state.menuIdx }
   }
 
-  componentDidMount() {
+  async componentDidMount() {
     this.input.focus()
+    const { word } = this.props.router.query
+    if (word) {
+      this.setState({ word })
+      this.setState({ loading: true })
+      const { result } = await reqWord(word)
+      this.setState({
+        result,
+        loading: false,
+      })
+    }
   }
 
   initWord = async () => {

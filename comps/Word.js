@@ -11,6 +11,7 @@ import { equals, complement } from 'ramda'
 import moment from 'moment'
 import './Word.scss'
 import app from '../src/app'
+import Router from 'next/router'
 
 moment.locale('ko')
 
@@ -52,7 +53,9 @@ class Word extends React.Component {
   }
 
   wordClick() {
-    app.view.Index.setState({ word: this.props.word.word }, () => {
+    const { word } = this.props.word
+    Router.push('/', { query: { word } })
+    app.view.Index.setState({ word }, () => {
       app.view.Index.resizeInput()
       app.view.Index.search()
     })
