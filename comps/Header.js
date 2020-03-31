@@ -54,9 +54,9 @@ class Header extends React.Component {
         <div className="wrapper">
           <div className="title">
             <div className="logo" onClick={this.logoClick.bind(this)}>
-              memword
+              Words i didn't know
             </div>
-            <div className="slogan">한번 몰랐던 영단어 두번 모르지 말자!</div>
+            <div className="slogan">몰랐던 단어는 좀 기억하자!</div>
           </div>
           <div className="login">
             {app.auth.isLogin() ? (
