@@ -168,7 +168,7 @@ class Index extends React.Component {
       <Layout>
         <div className="lower">
           <div className="wrapper">
-            <div className="title">단어 및 문장을 검색해 보세요</div>
+            <div className="title">단어를 검색해 보세요</div>
             <div className="word">
               <textarea
                 value={this.state.word}
