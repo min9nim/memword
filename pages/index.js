@@ -162,6 +162,9 @@ class Index extends React.Component {
           className="result"
           dangerouslySetInnerHTML={{ __html: this.state.result }}
         ></div>
+        <div className="list-btn">
+          <button onClick={this.goList.bind(this)}>목록으로 이동</button>
+        </div>
       </React.Fragment>
     ) : (
       <Facebook />
@@ -206,11 +209,6 @@ class Index extends React.Component {
               {this.state.result === '' && !this.state.loading ? finded : res}
             </div>
           </div>
-          {this.state.result !== '' && (
-            <div className="list-btn">
-              <button onClick={this.goList.bind(this)}>목록으로 이동</button>
-            </div>
-          )}
         </div>
       </Layout>
     )

@@ -7,7 +7,6 @@ $font-family: '굴림';
   color: $color1;
   padding: 20px 100px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
   button {
     margin-left: 10px;
@@ -78,12 +77,12 @@ $font-family: '굴림';
           }
         }
       }
-    }
-  }
-  .list-btn {
-    text-align: center;
-    button {
-      width: 100px;
+      .list-btn {
+        text-align: center;
+        button {
+          width: 100px;
+        }
+      }
     }
   }
 }
