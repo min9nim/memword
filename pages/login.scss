@@ -1,25 +1,21 @@
-@import "../src/com/com.scss";
-
+@import '../src/com/com.scss';
 
 .login-wrapper {
-    padding: 5px 100px 20px 100px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    div {
-        flex: 1;
-        max-width: 800px;
-        .login-title {
-            color: $color1;
-            font-size: 18px;
-            margin-top: 20px;
-            margin-bottom: 10px;    
-        }
-        
-        .login-btn {
-            margin-top: 20px;
-        }
-    
+  padding: 5px 100px 20px 100px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  div {
+    flex: 1;
+    max-width: 800px;
+    .login-title {
+      color: $color1;
+      font-size: 18px;
+      margin-top: 20px;
+      margin-bottom: 10px;
     }
-
+    .login-btn {
+      margin-top: 20px;
+    }
+  }
 }
