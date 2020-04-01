@@ -1,7 +1,7 @@
 import { reqWord, reqWords, saveWord, wordList } from '../src/restful'
 import app from '../src/app'
 import { withRouter } from 'next/router'
-import { observable, reaction, decorate } from 'mobx'
+// import { observable, reaction, decorate } from 'mobx'
 import {
   pipe,
   trim,
@@ -43,11 +43,11 @@ class Index extends React.Component {
         global.sessionStorage.setItem('user', JSON.stringify(app.user))
     }
 
-    // 변이를 추적할 상태 지정
-    decorate(this, { state: observable }) // or this.state = observable(this.state);
+    // // 변이를 추적할 상태 지정
+    // decorate(this, { state: observable }) // or this.state = observable(this.state);
 
-    // 변화에 따른 효과를 정의
-    reaction(() => this.state.word, this.resizeInput)
+    // // 변화에 따른 효과를 정의
+    // reaction(() => this.state.word, this.resizeInput)
 
     app.view.Index = this
     app.router = this.props.router
@@ -55,6 +55,7 @@ class Index extends React.Component {
 
   handleChange(e) {
     this.setState({ word: e.target.value })
+    this.resizeInput()
   }
 
   resizeInput = () => {
