@@ -111,25 +111,14 @@ class Index extends React.Component {
   }
 
   static async getInitialProps(ctx) {
-    // console.log('ctx:', ctx)
     const { req, res, pathname, query, asPath, AppTree } = ctx
     app.logger.verbose('Index의 getInitialProps 호출')
 
     let user = app.getUser(req)
-
     app.user.token = user.token
-
-    let { list } = await wordList()
-    // app.logger.verbose('list:', list)
-
     app.state.menuIdx = app.state.menu.findIndex(m => m.path === pathname)
+    let { list } = await wordList()
 
-    if (req) {
-      // 서버에서
-    } else {
-      // 클라이언트에서
-      //app.view.Index.state.list = list;
-    }
     return { list, user, menuIdx: app.state.menuIdx }
   }
 
