@@ -78,8 +78,18 @@ class Index extends React.Component {
   }
 
   async search() {
-    if (this.state.word === '') {
-      return
+    if (!this.state.word) {
+      try {
+        const text = await navigator.clipboard
+        console.log('Pasted content: ', text)
+        this.setState({ word: text })
+      } catch (e) {
+        console.error('Failed to read clipboard contents: ', e)
+      }
+      if (!this.state.word) {
+        alert('검색할 단어를 입력하세요')
+        return
+      }
     }
     if (this.state.word.includes(' ')) {
       alert('단어 사이 공백을 제거해 주세요')
@@ -116,7 +126,7 @@ class Index extends React.Component {
 
     let user = app.getUser(req)
     app.user.token = user.token
-    app.state.menuIdx = app.state.menu.findIndex(m => m.path === pathname)
+    app.state.menuIdx = app.state.menu.findIndex((m) => m.path === pathname)
     let { list } = await wordList()
 
     return { list, user, menuIdx: app.state.menuIdx }
@@ -169,7 +179,7 @@ class Index extends React.Component {
         </div>
         <div className="history">
           <ul>
-            {this.state.list.map(o => (
+            {this.state.list.map((o) => (
               <Word key={o.id} word={o} />
             ))}
           </ul>
@@ -185,7 +195,7 @@ class Index extends React.Component {
             <div className="word">
               <textarea
                 value={this.state.word}
-                ref={ele => {
+                ref={(ele) => {
                   this.input = ele
                 }}
                 onChange={this.handleChange.bind(this)}
