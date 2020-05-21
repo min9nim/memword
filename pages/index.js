@@ -80,7 +80,7 @@ class Index extends React.Component {
   async search() {
     if (!this.state.word) {
       try {
-        const text = await navigator.clipboard
+        const text = await navigator.clipboard.readText()
         console.log('Pasted content: ', text)
         this.setState({ word: text })
       } catch (e) {
