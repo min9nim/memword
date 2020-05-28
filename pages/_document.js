@@ -19,7 +19,7 @@ export default class MyDocument extends Document {
             content="initial-scale=1.0, width=device-width"
           />
           <meta name="theme-color" content="#343a40"></meta>
-
+          <title>memword</title>
           {/* 구글로그인 */}
           <meta name="google-signin-scope" content="profile email" />
           <meta
