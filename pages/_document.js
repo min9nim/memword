@@ -19,6 +19,9 @@ export default class MyDocument extends Document {
             content="initial-scale=1.0, width=device-width"
           />
           <meta name="theme-color" content="#343a40"></meta>
+          <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+          <link rel="icon" href="/favicon.ico" type="image/x-icon"></link>
+
           <title>memword</title>
           {/* 구글로그인 */}
           <meta name="google-signin-scope" content="profile email" />
