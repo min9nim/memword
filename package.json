@@ -19,7 +19,7 @@
     "body-parser": "^1.18.3",
     "cookie-parser": "^1.4.3",
     "crawler": "^1.2.1",
-    "express": "^4.16.4",
+    "express": "^4.17.3",
     "google-auth-library": "^2.0.2",
     "if-logger": "^0.11.5",
     "isomorphic-unfetch": "^3.0.0",
